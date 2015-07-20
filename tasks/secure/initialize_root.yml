@@ -1,0 +1,32 @@
+---
+# file: mariadb/tasks/secure/initialize_root.yml
+
+- name: stop server temporarily to set initial password
+  service:
+    name: "{{ mysql_service_name }}"
+    state: stopped
+
+- name: ensure mysqld_safe is stopped
+  shell: mysqladmin shutdown -u root -p'{{ mariadb_root_password }}' ||
+         mysqladmin shutdown -u root
+  failed_when: False
+
+- name: start mysqld_safe without grants
+  shell: mysqld_safe --skip-grant-tables --skip-networking &
+
+#- name: set initial root password
+#  command: mysqladmin password '{{ mariadb_root_password }} flush-privileges'
+
+- name: set initial root password
+  command: mysql -u root -e "update mysql.user set password=PASSWORD('{{ mariadb_root_password }}') where User = 'root'"
+
+- name: flush privileges for root password
+  command: mysql -u root -e "flush privileges"
+
+- name: stop mysqld_safe
+  command: mysqladmin shutdown -u root -p'{{ mariadb_root_password }}'
+
+- name: start MariaDB server again
+  service:
+    name: "{{ mysql_service_name }}"
+    state: started

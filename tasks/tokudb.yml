@@ -1,0 +1,21 @@
+---
+# file: mariadb/tasks/tokudb.yml
+
+- name: check if hugepage is enabled
+  command: cat /sys/kernel/mm/transparent_hugepage/enabled
+  changed_when: False
+  register: hugepage_out
+
+# https://mariadb.com/kb/en/mariadb/enabling-tokudb/#check-for-transparent-hugepage-support-on-linux
+- name: fail if hugepage is enabled
+  fail: msg="Hugepage is enabled, halting installation."
+  when:
+   - "{{ '[always] madvise never' in hugepage_out.stdout }}"
+   - mariadb_tokudb_fail_hugepage
+
+- name: disable kernel hugepage (a reboot will be required)
+  shell: echo never > /sys/kernel/mm/transparent_hugepage/enabled && \
+         echo never > /sys/kernel/mm/transparent_hugepage/defrag
+  when:
+   - "{{ '[always] madvise never' in hugepage_out.stdout }}"
+   - not mariadb_tokudb_fail_hugepage

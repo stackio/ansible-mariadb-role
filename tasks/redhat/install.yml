@@ -1,0 +1,6 @@
+---
+- name: make sure the MariaDB packages are installed
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: mysql_packages

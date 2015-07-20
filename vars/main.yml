@@ -1,0 +1,15 @@
+---
+# True to install mysql conf file
+mysql_configure: True
+
+
+## BELOW ARE OVERRIDEN PER DISTRO ##
+
+# Packages to install
+mysql_packages: []
+
+mysql_service_name:
+
+mysql_cnf_path:
+
+mysql_sock_file:

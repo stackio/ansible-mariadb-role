@@ -1,0 +1,74 @@
+---
+- name: check connection access
+  shell: /usr/bin/mysqladmin -u root -p{{ mariadb_root_password }} status &> /dev/null
+  changed_when: False
+  failed_when: False
+  register: root_access
+
+- name: fail if cannot connect via root
+  fail: msg="cannot connect to MySQL server via root"
+  when:
+   - root_access | failed
+   - not mariadb_initialize_root
+
+- include: secure/initialize_root.yml
+  when:
+   - root_access | failed
+   - mariadb_initialize_root
+
+- name: grant root access
+  mysql_user:
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    user: root
+    host: "{{ item }}"
+    password: "{{ mariadb_root_password }}"
+  with_items:
+   - "{{ ansible_hostname }}"
+   - 127.0.0.1
+   - ::1
+   - localhost
+  when: ansible_hostname != 'localhost'
+
+- name: grant root access
+  mysql_user:
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    user: root
+    host: "{{ item }}"
+    password: "{{ mariadb_root_password }}"
+  with_items:
+   - 127.0.0.1
+   - ::1
+   - localhost
+  when: ansible_hostname == 'localhost'
+
+- name: configure MySql for easy access as root user
+  template:
+    src: root_dot_my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: remove anonymous MySQL server user
+  mysql_user:
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    name: ""
+    host: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ ansible_hostname }}"
+    - localhost
+
+- name: flush privileges (in case anonymous users created problems)
+  command: /usr/bin/mysql -u root -p{{ mariadb_root_password }} -e "flush privileges"
+  changed_when: False
+
+- name: remove the MySQL test database
+  mysql_db:
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    name: test
+    state: absent

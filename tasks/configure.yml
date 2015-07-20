@@ -1,0 +1,36 @@
+---
+- name: update the my.cnf
+  template:
+    src: etc/my.cnf.j2
+    dest: "{{ mysql_cnf_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  register: config_res
+
+- name: ensure the mysql conf dir exists
+  file:
+    path: "{{ mysql_include_conf_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: ensure MySQL is running
+  service:
+    name: "{{ mysql_service_name }}"
+    state: started
+    enabled: yes
+  register: service_start
+
+# we don't use notify because we want to reload immediately.
+# notify will reload after playbook run. Sometimes not reloading the
+# config could break the next role executions in same playbook.
+- name: restart mysql if config changed
+  service:
+    name: "{{ mysql_service_name }}"
+    state: restarted
+  when:
+   - config_res | changed
+   - not (service_start | changed)
+   - mariadb_reload_service_on_update

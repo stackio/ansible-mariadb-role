@@ -1,0 +1,12 @@
+# file: mysql/vars/debian/default.yml
+
+mysql_packages:
+  - mysql-server
+  - mysql-client
+  - python-mysqldb
+
+mysql_service_name: mysql
+
+mysql_cnf_path: /etc/mysql/my.cnf
+
+mysql_sock_file: /var/run/mysqld/mysqld.sock

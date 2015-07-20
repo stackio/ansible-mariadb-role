@@ -1,0 +1,314 @@
+---
+# file: mariadb/defaults/main.yml
+
+## GENERAL OPTIONS ##
+
+# Will reload mysql service when config changes
+mariadb_reload_service_on_update: True
+
+
+## CREDENTIALS ##
+
+# Default root password
+mariadb_root_password: root
+
+# True to set root password if not defined
+# This could be dangerous to apply on a production system, since it will
+# automatically reset the root password and interrupt the service (service
+# restart)
+mariadb_initialize_root: True
+
+
+## TOKUDB ##
+
+mariadb_tokudb_install: False
+
+mariadb_tokudb_fail_hugepage: True
+
+
+## DATABASE AND USER CREATION ##
+
+
+# List of databases to be created
+mariadb_databases: []
+
+# List of users to be created
+mariadb_users: []
+
+
+## CONFIGS ##
+
+# Example MariaDB config file for medium systems.
+#
+# This is for a system with little memory (32M - 64M) where MariaDB plays
+# an important part, or systems up to 128M where MariaDB is used together with
+# other programs (such as a web server)
+#
+# MariaDB programs look for option files in a set of
+# locations which depend on the deployment platform.
+# You can copy this option file to one of those
+# locations. For information about these locations, do:
+# 'my_print_defaults --help' and see what is printed under
+# Default options are read from the following files in the given order:
+# More information at: http://dev.mysql.com/doc/mysql/en/option-files.html
+#
+# In this file, you can use all long options that a program supports.
+# If you want to know which options a program supports, run the program
+# with the "--help" option.
+# The following options will be passed to all MariaDB clients
+
+
+## [client] ##
+
+mariadb_client_password: "{{ mariadb_root_password }}"
+
+mariadb_client_port: 3306
+
+mariadb_client_socket: /var/lib/mysql/mysql.sock
+
+
+## [mysqld] ##
+
+# Here follows entries for some specific programs
+# The MariaDB server
+
+mariadb_mysqld_port: 3306
+
+mariadb_mysqld_socket: /var/lib/mysql/mysql.sock
+
+mariadb_mysqld_skip_external_locking: False
+
+mariadb_mysqld_key_buffer_size: 16M
+
+mariadb_mysqld_max_allowed_packet: 1M
+
+mariadb_mysqld_table_open_cache: 64
+
+mariadb_mysqld_sort_buffer_size: 512K
+
+mariadb_mysqld_net_buffer_length: 8K
+
+mariadb_mysqld_read_buffer_size: 256K
+
+mariadb_mysqld_read_rnd_buffer_size: 512K
+
+mariadb_mysqld_myisam_sort_buffer_size: 8M
+
+# Point the following paths to different dedicated disks
+mariadb_mysqld_tmpdir: /tmp/
+
+# Don't listen on a TCP/IP port at all. This can be a security enhancement,
+# if all processes that need to connect to mysqld run on the same host.
+# All interaction with mysqld must be made via Unix sockets or named pipes.
+# Note that using this option without enabling named pipes on Windows
+# (via the "enable-named-pipe" option) will render mysqld useless!
+mariadb_mysqld_skip_networking: False
+
+# binary logging - not required for slaves, but recommended
+mariadb_mysqld_log_bin: mysql-bin
+
+# binary logging format - mixed recommended
+mariadb_mysqld_binlog_format: mixed
+
+# Replication Slave (comment out master section to use this)
+#
+# To configure this host as a replication slave, you can choose between
+# two methods :
+#
+# 1) Use the CHANGE MASTER TO command (fully described in our manual) -
+# the syntax is:
+#
+# CHANGE MASTER TO MASTER_HOST=<host>, MASTER_PORT=<port>,
+# MASTER_USER=<user>, MASTER_PASSWORD=<password> ;
+#
+# where you replace <host>, <user>, <password> by quoted strings and
+# <port> by the master's port number (3306 by default).
+#
+# Example:
+#
+# CHANGE MASTER TO MASTER_HOST='125.564.12.1', MASTER_PORT=3306,
+# MASTER_USER='joe', MASTER_PASSWORD='secret';
+#
+# OR
+#
+# 2) Set the variables below. However, in case you choose this method, then
+# start replication for the first time (even unsuccessfully, for example
+# if you mistyped the password in master-password and the slave fails to
+# connect), the slave will create a master.info file, and any later
+# change in this file to the variables' values below will be ignored and
+# overridden by the content of the master.info file, unless you shutdown
+# the slave server, delete master.info and restart the slaver server.
+# For that reason, you may want to leave the lines below untouched
+# (commented) and instead use CHANGE MASTER TO (see above)
+#
+# required unique id between 2 and 2^32 - 1
+# (and different from the master)
+# defaults to 2 if master-host is set
+# but will not function as a slave if omitted
+mariadb_mysqld_server_id: 2
+
+#
+# The replication master for this slave - required
+mariadb_mysqld_master_host: ''
+
+#
+# The username the slave will use for authentication when connecting
+# to the master - required
+mariadb_mysqld_master_user: ''
+
+#
+# The password the slave will authenticate with when connecting to
+# the master - required
+mariadb_mysqld_master_password: ''
+
+#
+# The port the master is listening on.
+# optional - defaults to 3306
+mariadb_mysqld_master_port: ''
+
+# Uncomment the following if you are using InnoDB tables
+mariadb_mysqld_innodb_data_home_dir: /var/lib/mysql
+
+mariadb_mysqld_innodb_data_file_path: ibdata1:10M:autoextend
+
+mariadb_mysqld_innodb_log_group_home_dir: /var/lib/mysql
+
+# You can set .._buffer_pool_size up to 50 - 80 %
+# of RAM but beware of setting memory usage too high
+mariadb_mysqld_innodb_buffer_pool_size: 16M
+
+mariadb_mysqld_innodb_additional_mem_pool_size: 2M
+
+# Set .._log_file_size to 25 % of buffer pool size
+mariadb_mysqld_innodb_log_file_size: 5M
+
+mariadb_mysqld_innodb_log_buffer_size: 8M
+
+mariadb_mysqld_innodb_flush_log_at_trx_commit: 1
+
+mariadb_mysqld_innodb_lock_wait_timeout: 50
+
+
+## [mysqldump] ##
+
+mariadb_mysqldump_quick: False
+
+mariadb_mysqldump_max_allowed_packet: 16M
+
+
+## [mysql] ##
+
+mariadb_mysql_no_auto_rehash: False
+
+# Remove the next comment character if you are not familiar with SQL
+mariadb_mysql_safe_update: False
+
+
+## [myisamchk] ##
+
+mariadb_myisamchk_key_buffer_size: 20M
+
+mariadb_myisamchk_sort_buffer_size: 20M
+
+mariadb_myisamchk_read_buffer: 2M
+
+mariadb_myisamchk_write_buffer: 2M
+
+
+## [mysqlhotcopy] ##
+
+mariadb_mysqlhotcopy_interactive_timeout: True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## BASIC SETTINGS ##
+
+# The port the master is listening on.
+# optional - defaults to 3306
+mysql_port: 3306
+
+# Bind network interface address
+mysql_bind_address: 0.0.0.0
+
+mysql_skip_locking: False
+
+mysql_skip_external_locking: True
+
+mysql_pid_file: /var/run/mysqld/mysqld.pid
+
+mysql_log_file: /var/log/mysqld.log
+
+mysql_user: mysql
+
+# Don't listen on a TCP/IP port at all. This can be a security enhancement,
+# if all processes that need to connect to mysqld run on the same host.
+# All interaction with mysqld must be made via Unix sockets or named pipes.
+# Note that using this option without enabling named pipes on Windows
+# (via the "enable-named-pipe" option) will render mysqld useless!
+mysql_skip_networking: False
+
+# Path for server message default language
+mysql_language: /usr/share/mysql/english
+
+
+## FINE TUNING ##
+
+mysql_key_buffer: '16M'
+
+mysql_max_allowed_packet: '128M'
+
+mysql_thread_stack: '192K'
+
+mysql_cache_size: 8
+
+mysql_myisam_recover: 'BACKUP'
+
+mysql_max_connections: 100
+
+mysql_table_cache: 64
+
+# Try number of CPU's*2 for thread_concurrency
+mysql_thread_concurrency: 10
+
+mysql_query_cache_limit: '1M'
+
+mysql_query_cache_size: '16M'
+
+mysql_innodb_file_per_table: 'innodb_file_per_table'
+
+mysql_character_set_server: 'utf8'
+
+mysql_collation_server: 'utf8_general_ci'
+
+mysql_mysqldump_max_allowed_packet: '128M'
+
+mysql_isamchk_key_buffer: '16M'
+
+# InnoDB tuning
+mysql_innodb_file_per_table: 'innodb_file_per_table'
+mysql_innodb_flush_method: 'fdatasync'
+mysql_innodb_buffer_pool_size: '128M'
+mysql_innodb_flush_log_at_trx_commit: 1
+mysql_innodb_lock_wait_timeout: 50
+mysql_innodb_log_buffer_size: '1M'
+mysql_innodb_log_file_size: '5M'
+
+# include conf
+mysql_include_conf_dir: /etc/mysql/conf.d/
+
+

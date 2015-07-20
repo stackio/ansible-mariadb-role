@@ -1,0 +1,6 @@
+---
+- name: make sure the MariaDB packages are installed
+  apt:
+    pkg: "{{ item }}"
+    update_cache: yes
+  with_items: mysql_packages
