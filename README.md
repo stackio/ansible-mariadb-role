@@ -1,7 +1,5 @@
 ## Ansible MySQL [![Build Status](https://travis-ci.org/alexandrem/mariadb.png)](https://travis-ci.org/alexandrem/ansible-mariadb-role)
 
-`based on https://github.com/geerlingguy/ansible-role-mysql`
-
 NOTE: `Experimental`
 
 Ansible role that installs MariaDB on RedHat.
@@ -50,6 +48,10 @@ mariadb_users:
     host: "%"                           # optional, defaults to "localhost"
 
 ```
+
+#### Credits
+
+Based on https://github.com/geerlingguy/ansible-role-mysql
 
 
 #### License
