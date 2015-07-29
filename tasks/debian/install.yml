@@ -3,4 +3,4 @@
   apt:
     pkg: "{{ item }}"
     update_cache: yes
-  with_items: mysql_packages
+  with_items: mariadb_packages

@@ -8,7 +8,7 @@
   when: mariadb_tokudb_install
 
 - include: configure.yml
-  when: mysql_configure
+  when: mariadb_configure
 
 - include: secure.yml
 - include: databases.yml

@@ -3,4 +3,4 @@
   yum:
     name: "{{ item }}"
     state: present
-  with_items: mysql_packages
+  with_items: mariadb_packages
