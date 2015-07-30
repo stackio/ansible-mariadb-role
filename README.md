@@ -14,10 +14,10 @@ Features include:
 #### Notes:
 - Tested on RHEL 7 with MariaDB server 5.5
 - Not all MariaDB config variables are available via this role for now
-- Need to provide option to override config file completely via path variable
-- Need more testing
-- Need to add Debian support
-- Need to add Galera support
+- TODO add option to override config file completely via path variable
+- TODO add tests
+- TODO add Debian support
+- TODO add Galera support
 
 
 #### Requirements & Dependencies
