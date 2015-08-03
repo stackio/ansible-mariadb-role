@@ -1,4 +1,6 @@
 ---
+- debug: msg="installing MariaDB version {{ mariadb_version_major }}"
+
 - include: redhat/install.yml
   when: ansible_os_family == 'RedHat'
 
