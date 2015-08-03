@@ -1,6 +1,6 @@
 ## Ansible MySQL
 
-[![Build Status](https://img.shields.io/circleci/project/alexandrem/ansible-mariadb-role.svg?style=flat)](https://img.shields.io/circleci/project/alexandrem/ansible-mariadb-role.svg)
+[![Build Status](https://img.shields.io/circleci/project/alexandrem/ansible-mariadb-role.svg?style=flat)](https://circleci.com/gh/alexandrem/ansible-mariadb-role)
 
 NOTE: `Experimental`
 
