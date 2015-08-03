@@ -1,4 +1,11 @@
 ---
+# file: mariadb/vars/main.yml
+
+## ROLE PARAMETERS ##
+
+# {install, reset_root_password}
+do: install
+
 # True to install mysql conf file
 mariadb_configure: True
 

@@ -6,3 +6,11 @@
 
 - include: debian/install.yml
   when: ansible_os_family == 'Debian'
+
+- include: tokudb.yml
+  when: mariadb_tokudb_install
+
+- include: configure.yml
+  when: mariadb_configure
+
+- include: secure.yml

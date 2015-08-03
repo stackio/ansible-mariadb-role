@@ -4,13 +4,11 @@
 - include: vars.yml
 
 - include: install.yml
+  when: do == 'install'
 
-- include: tokudb.yml
-  when: mariadb_tokudb_install
+- include: secure/initialize_root.yml
+  when: do == 'reset_root_password'
 
-- include: configure.yml
-  when: mariadb_configure
-
-- include: secure.yml
 - include: databases.yml
+
 - include: users.yml
