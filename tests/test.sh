@@ -4,13 +4,13 @@ set -ex
 VERBOSE=
 RELEASE=10
 
-while getopts ":v:r" opt; do
+while getopts ":v:r:" opt; do
   case $opt in
     v)
       VERBOSE="-v"
       ;;
     r)
-      RELEASE="5"
+      RELEASE=${OPTARG}
       ;;
   esac
 done
