@@ -12,15 +12,15 @@
   failed_when: False
 
 - name: start mysqld_safe without grants
-  shell: mysqld_safe --skip-grant-tables --skip-networking &
+  shell: mysqld_safe --skip-grant-tables --skip-networking --pid-file={{ mariadb_mysqld_safe_pid_file }} &
 
 #- name: set initial root password
 #  command: mysqladmin password '{{ mariadb_root_password }} flush-privileges'
 
 - name: wait for mysqld_safe
   wait_for:
-    path: "{{ mariadb_client_socket }}"
-    delay: 5
+    path: "{{ mariadb_mysqld_safe_pid_file }}"
+    delay: 2
 
 - name: set initial root password
   command: mysql -u root -e "update mysql.user set password=PASSWORD('{{ mariadb_root_password }}') where User = 'root'"

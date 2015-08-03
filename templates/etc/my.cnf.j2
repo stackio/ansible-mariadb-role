@@ -176,6 +176,11 @@ innodb_flush_log_at_trx_commit={{ mariadb_mysqld_innodb_flush_log_at_trx_commit 
 innodb_lock_wait_timeout={{ mariadb_mysqld_innodb_lock_wait_timeout }}
 
 
+[mysqld_safe]
+
+pid-file={{ mariadb_mysqld_safe_pid_file }}
+
+
 [mysqldump]
 
 {% if not mariadb_mysqldump_quick -%}#{%- endif -%}
