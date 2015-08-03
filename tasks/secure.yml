@@ -15,6 +15,7 @@
   when:
    - root_access | failed
    - mariadb_initialize_root
+   - service_start | changed
 
 - name: grant root access
   mysql_user:
