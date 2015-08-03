@@ -12,10 +12,9 @@ mariadb_yum_repo_release:
 mariadb_packages:
   - mariadb
   - mariadb-server
-  - mariadb-client
   - MySQL-python
 
-mariadb_service_name: mariadb
+mariadb_service_name: mysql
 
 mariadb_cnf_path: /etc/my.cnf
 

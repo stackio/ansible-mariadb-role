@@ -6,5 +6,3 @@ mariadb_yum_repo_distro: centos6-amd64
 mariadb_packages:
   - mariadb-server
   - MySQL-python
-
-mariadb_service_name: mysql
