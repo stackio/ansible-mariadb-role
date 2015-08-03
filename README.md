@@ -5,20 +5,23 @@ NOTE: `Experimental`
 Ansible role that installs MariaDB on RedHat.
 Features include:
 - Installation of MariaDB and it's dependencies
+- Use official MariaDB repository
+- Support 5.5 and 10.0
 - Basic configuration
 - Standard hardening (root password, removal of test databases)
 - Add databases
 - Add users
-- Support TokuDB
+- Support TokuDB (experimental)
 
 #### Notes:
-- Tested on RHEL 7 with MariaDB server 5.5
+- Tested on centos 6/7
 - Not all MariaDB config variables are available via this role for now
-- TODO add option to override config file completely via path variable
-- TODO add tests
-- TODO add Debian support
-- TODO add Galera support
 
+#### TODO:
+- add option to override config file completely via path variable
+- add Debian support
+- add Galera support
+- add more test cases
 
 #### Requirements & Dependencies
 - Tested on Ansible 1.9 or higher.
