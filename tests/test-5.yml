@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  sudo: True
+  vars:
+    mariadb_root_password: test
+    mariadb_version_major: 5
+  roles:
+    - mariadb
+  post_tasks:
+    - name: fetch mysql version
+      shell: mysql -u root -ptest -e "select version()"
+      register: mysql_version
+      changed_when: False
+
+    - name: check for version
+      debug: var=mysql_version
