@@ -1,0 +1,5 @@
+[mariadb]
+name=MariaDB
+baseurl=http://yum.mariadb.org/{{ mariadb_yum_repo_release[mariadb_version_major] }}/{{ mariadb_yum_repo_distro }}
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MariaDB
+gpgcheck=1

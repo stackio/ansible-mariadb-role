@@ -1,4 +1,4 @@
-# file: mysql/vars/debian/default.yml
+# file: mariadb/vars/debian/defaults.yml
 
 mariadb_packages:
   - mysql-server

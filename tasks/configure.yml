@@ -1,8 +1,8 @@
 ---
-- name: update the my.cnf
+- name: copy the my.cnf
   template:
     src: etc/my.cnf.j2
-    dest: "{{ mysql_cnf_path }}"
+    dest: "{{ mariadb_cnf_path }}"
     owner: root
     group: root
     mode: 0644
@@ -16,9 +16,21 @@
     group: root
     mode: 0755
 
+- name: copy the included conf files
+  template:
+    src: etc/my.cnf.d/{{ item }}.j2
+    dest: /etc/my.cnf.d/{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - mysql-clients.cnf
+    - server.cnf
+    - tokudb.cnf
+
 - name: ensure MySQL is running
   service:
-    name: "{{ mysql_service_name }}"
+    name: "{{ mariadb_service_name }}"
     state: started
     enabled: yes
   register: service_start
@@ -28,7 +40,7 @@
 # config could break the next role executions in same playbook.
 - name: restart mysql if config changed
   service:
-    name: "{{ mysql_service_name }}"
+    name: "{{ mariadb_service_name }}"
     state: restarted
   when:
    - config_res | changed

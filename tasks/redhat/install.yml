@@ -1,4 +1,24 @@
 ---
+# file: mariadb/tasks/redhat/install.yml
+
+- name: install the MariaDB yum repo
+  template:
+    src: ../../templates/{{ mariadb_yum_repo_tmpl }}
+    dest: /etc/yum.repos.d/mariadb.repo
+    owner: root
+    group: root
+  when: mariadb_install_yum_repo
+
+- name: copy the GPG key
+  copy:
+    src: ../../files/redhat/{{ item }}
+    dest: /etc/pki/rpm-gpg/
+    owner: root
+    group: root
+  with_items:
+    - RPM-GPG-KEY-MariaDB
+  when: mariadb_install_yum_repo
+
 - name: make sure the MariaDB packages are installed
   yum:
     name: "{{ item }}"

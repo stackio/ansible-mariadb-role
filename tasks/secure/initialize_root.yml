@@ -3,7 +3,7 @@
 
 - name: stop server temporarily to set initial password
   service:
-    name: "{{ mysql_service_name }}"
+    name: "{{ mariadb_service_name }}"
     state: stopped
 
 - name: ensure mysqld_safe is stopped
@@ -17,6 +17,11 @@
 #- name: set initial root password
 #  command: mysqladmin password '{{ mariadb_root_password }} flush-privileges'
 
+- name: wait for mysqld_safe
+  wait_for:
+    path: "{{ mariadb_client_socket }}"
+    delay: 5
+
 - name: set initial root password
   command: mysql -u root -e "update mysql.user set password=PASSWORD('{{ mariadb_root_password }}') where User = 'root'"
 
@@ -28,5 +33,5 @@
 
 - name: start MariaDB server again
   service:
-    name: "{{ mysql_service_name }}"
+    name: "{{ mariadb_service_name }}"
     state: started

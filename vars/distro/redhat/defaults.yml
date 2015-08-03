@@ -1,0 +1,22 @@
+---
+# file: mariadb/vars/distro/redhat/defaults.yml
+
+mariadb_yum_repo_tmpl: redhat/mariadb.repo.j2
+
+mariadb_yum_repo_distro: centos7-amd64
+
+mariadb_yum_repo_release:
+  5: 5.5
+  10: 10.0
+
+mariadb_packages:
+  - mariadb
+  - mariadb-server
+  - mariadb-client
+  - MySQL-python
+
+mariadb_service_name: mariadb
+
+mariadb_cnf_path: /etc/my.cnf
+
+mariadb_sock_file: /var/lib/mysql/mysql.sock

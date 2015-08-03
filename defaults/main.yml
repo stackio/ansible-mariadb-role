@@ -3,6 +3,14 @@
 
 ## GENERAL OPTIONS ##
 
+# Major version to install {5, 10}
+# 5 => 5.5
+# 10 => 10.0
+mariadb_version_major: 10
+
+# Install the yum repo file (on RHEL only)
+mariadb_install_yum_repo: True
+
 # Will reload mysql service when config changes
 mariadb_reload_service_on_update: True
 
@@ -55,9 +63,8 @@ mariadb_users: []
 # In this file, you can use all long options that a program supports.
 # If you want to know which options a program supports, run the program
 # with the "--help" option.
+#
 # The following options will be passed to all MariaDB clients
-
-
 ## [client] ##
 
 mariadb_client_password: "{{ mariadb_root_password }}"
@@ -66,11 +73,10 @@ mariadb_client_port: 3306
 
 mariadb_client_socket: /var/lib/mysql/mysql.sock
 
-
-## [mysqld] ##
-
 # Here follows entries for some specific programs
 # The MariaDB server
+
+## [mysqld] ##
 
 mariadb_mysqld_port: 3306
 
@@ -309,6 +315,4 @@ mysql_innodb_log_buffer_size: '1M'
 mysql_innodb_log_file_size: '5M'
 
 # include conf
-mysql_include_conf_dir: /etc/mysql/conf.d/
-
-
+mysql_include_conf_dir: /etc/my.cnf.d

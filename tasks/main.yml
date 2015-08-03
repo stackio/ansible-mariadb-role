@@ -1,6 +1,7 @@
 ---
-- name: load the os specific variables
-  include_vars: "{{ ansible_os_family | lower }}/default.yml"
+# file: mariadb/tasks/main.yml
+
+- include: vars.yml
 
 - include: install.yml
 

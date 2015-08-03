@@ -1,10 +1,3 @@
-[client]
-
-# Example MariaDB config file for medium systems.
-#
-# This is for a system with little memory (32M - 64M) where MariaDB plays
-# an important part, or systems up to 128M where MariaDB is used together with
-# other programs (such as a web server)
 #
 # MariaDB programs look for option files in a set of
 # locations which depend on the deployment platform.
@@ -17,8 +10,9 @@
 # In this file, you can use all long options that a program supports.
 # If you want to know which options a program supports, run the program
 # with the "--help" option.
+#
 # The following options will be passed to all MariaDB clients
-
+[client]
 
 {% if not mariadb_client_password -%}#{%- endif -%}
 password={{ mariadb_client_password }}
@@ -29,12 +23,9 @@ port={{ mariadb_client_port }}
 {% if not mariadb_client_socket -%}#{%- endif -%}
 socket={{ mariadb_client_socket }}
 
-
-[mysqld]
-
 # Here follows entries for some specific programs
 # The MariaDB server
-
+[mysqld]
 
 {% if not mariadb_mysqld_port -%}#{%- endif -%}
 port={{ mariadb_mysqld_port }}
@@ -203,6 +194,7 @@ no-auto-rehash
 {% if not mariadb_mysql_safe_update -%}#{%- endif -%}
 safe-updates
 
+
 [myisamchk]
 
 {% if not mariadb_myisamchk_key_buffer_size -%}#{%- endif -%}
@@ -222,3 +214,15 @@ write_buffer={{ mariadb_myisamchk_write_buffer }}
 
 {% if not mariadb_mysqlhotcopy_interactive_timeout -%}#{%- endif -%}
 interactive-timeout
+
+
+#
+# This group is read both both by the client and the server
+# use it for options that affect everything
+#
+[client-server]
+
+#
+# include all files from the config directory
+#
+!includedir /etc/my.cnf.d
