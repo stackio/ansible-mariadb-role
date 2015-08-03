@@ -1,4 +1,7 @@
 ---
+# don't run on container based infra
+sudo: true
+
 language: c
 
 env:
