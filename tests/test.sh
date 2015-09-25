@@ -19,7 +19,7 @@ ansible-playbook -i tests/inventory tests/test-${RELEASE}.yml --syntax-check --l
 
 #ansible-galaxy install -r requirements.yml
 
-ansible-playbook -i tests/inventory tests/test-${RELEASE}.yml -c local $VERBOSE
+ANSIBLE_CONFIG=tests/ansible.cfg ansible-playbook -i tests/inventory tests/test-${RELEASE}.yml -c local $VERBOSE
 
 # Idempotence Test
-ansible-playbook -i tests/inventory tests/test-${RELEASE}.yml | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
+ANSIBLE_CONFIG=tests/ansible.cfg ansible-playbook -i tests/inventory tests/test-${RELEASE}.yml | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
