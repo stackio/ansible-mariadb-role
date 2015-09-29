@@ -33,6 +33,15 @@ port={{ mariadb_mysqld_port }}
 {% if not mariadb_mysqld_socket -%}#{%- endif -%}
 socket={{ mariadb_mysqld_socket }}
 
+{% if not mariadb_mysqld_collation_server -%}#{%- endif -%}
+collation-server={{ mariadb_mysqld_collation_server }}
+
+{% if not mariadb_mysqld_init_connect -%}#{%- endif -%}
+init-connect={{ mariadb_mysqld_init_connect }}
+
+{% if not mariadb_mysqld_character_set_server -%}#{%- endif -%}
+character-set-server={{ mariadb_mysqld_character_set_server }}
+
 {% if not mariadb_mysqld_skip_external_locking -%}#{%- endif -%}
 skip-external-locking
 
