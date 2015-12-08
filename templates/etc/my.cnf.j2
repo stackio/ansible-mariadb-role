@@ -14,9 +14,6 @@
 # The following options will be passed to all MariaDB clients
 [client]
 
-{% if not mariadb_client_password -%}#{%- endif -%}
-password={{ mariadb_client_password }}
-
 {% if not mariadb_client_port -%}#{%- endif -%}
 port={{ mariadb_client_port }}
 
